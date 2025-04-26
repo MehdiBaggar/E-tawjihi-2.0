@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 Encore
-    .setOutputPath('public/build/')
+    .setOutputPath('public_html/build/')
     .setPublicPath('/build')
     .addEntry('app', './frontend/src/main.js')
     .enableVueLoader()
