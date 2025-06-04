@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mettre à jour un utilisateur</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.phoneNumber) }}
+    {{ form_row(form.dateOfBirth) }}
+    {{ form_row(form.sex) }}
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(form) }}
+{% endblock %}

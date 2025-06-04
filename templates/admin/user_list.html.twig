@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des utilisateurs</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Rôles</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Créé le</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.getId() }}</td>
+                <td>{{ user.getEmail() }}</td>
+                <td>{{ user.getRoles()|join(', ') }}</td>
+                <td>{{ user.getLastName() }}</td>
+                <td>{{ user.getFirstName() }}</td>
+                <td>{{ user.getCreatedAt()|date('Y-m-d') }}</td>
+                <td>
+                    <a href="#">📝</a>
+                    <a href="{{ path('admin_user_archive', { id: user.getId() }) }}">🗃️ Archiver</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

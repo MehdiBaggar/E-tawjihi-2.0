@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs archivés{% endblock %}
+
+{% block body %}
+    <h1>Utilisateurs archivés</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Rôles</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Archivé le</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.getId() }}</td>
+                <td>{{ user.getEmail() }}</td>
+                <td>{{ user.getRoles()|join(', ') }}</td>
+                <td>{{ user.getLastName() }}</td>
+                <td>{{ user.getFirstName() }}</td>
+                <td>{{ user.getCreatedAt()|date('Y-m-d') }}</td>
+
+                <td>
+                    <a href="{{ path('admin_user_unarchive', { id: user.getId() }) }}">✅ Désarchiver</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun utilisateur archivé.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

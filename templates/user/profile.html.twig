@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    <h1>Mon Profil</h1>
+
+    <ul>
+        <li><strong>Nom complet :</strong> {{ user.firstName }} {{ user.lastName }}</li>
+        <li><strong>Email :</strong> {{ user.email }}</li>
+        <li><strong>Numéro de téléphone :</strong> {{ user.phoneNumber }}</li>
+        <li><strong>Sexe :</strong> {{ user.sex ?? 'Non spécifié' }}</li>
+        <li><strong>Date de naissance :</strong> {{ user.dateOfBirth ? user.dateOfBirth|date('d/m/Y') : 'Non spécifiée' }}</li>
+        <li><strong>Rôles :</strong> {{ user.roles | join(', ') }}</li>
+        <li><strong>Créé le :</strong> {{ user.createdAt|date('d/m/Y à H:i') }}</li>
+        <li><strong>Archivé ?</strong> {{ user.isArchived ? 'Oui' : 'Non' }}</li>
+    </ul>
+{% endblock %}

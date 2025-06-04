@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se Connecter à Mon Compte E-Tawjihi
+{% endblock %}
+
+{% block description %}Connectez-vous pour voir vos écoles supérieures favoris et les programmes d'études qui vous convient !
+{% endblock %}
+
+{% block body %}
+
+    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-overlay"></div>
+        <div class="auth-page-content overflow-hidden pt-lg-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card overflow-hidden">
+                            <div class="row g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-lg-5 p-4 auth-one-bg h-100">
+                                        <div class="bg-overlay"></div>
+                                        <div class="position-relative h-100 d-flex flex-column">
+                                            <div class="mb-4">
+                                                <a href="/" class="d-block">
+                                                    <img src="{{asset('assets/styles/images/brand/white-logo.png')}}" alt="" height="45"/>
+                                                </a>
+                                            </div>
+                                            <div class="mt-auto">
+                                                <div class="mb-3">
+                                                    <i class="ri-double-quotes-l display-4 text-tawjihi"></i>
+                                                </div>
+
+                                                <div id="qoutescarouselIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                    <div class="carousel-indicators">
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                                    </div>
+                                                    <div class="carousel-inner text-center text-white-50 pb-5">
+                                                        <div class="carousel-item active">
+                                                            <p class="fs-20 fst-italic">
+                                                                " La réussite dépend d’une bonne orientation ! "
+                                                            </p>
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <p class="fs-20 fst-italic">
+                                                                " La réussite n'est pas le fruit du hasard, mais le résultat d'un travail acharné. "
+                                                            </p>
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <p class="fs-20 fst-italic">
+                                                                " Choisis un travail que tu aimes et tu n'auras jamais à travailler un seul jour de ta vie "
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="p-lg-5 p-4">
+                                        <div>
+                                            <h5 class="text-primary">Marhba bik !</h5>
+                                            <p class="text-muted">Connectez-vous à votre compte E-Tawjihi !</p>
+                                        </div>
+                                        {% if error %}
+                                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                        {% endif %}
+                                        {% if app.user %}
+                                            <div class="mb-3">
+                                                Vous êtes connecter en tant que
+                                                {{ app.user.userIdentifier }},
+                                                <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="mt-4">
+                                            <form method="post">
+                                                <div class="mb-3">
+                                                    <label for="tel-input" class="form-label">Téléphone
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="tel" class="form-control" id="tel-input" name="phoneNumber" value="{{ last_username }}" placeholder="06..." required oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10)"/>
+                                                    <div class="invalid-feedback text-primary d-block">
+                                                        Une numéro de téléphone valide est requis!
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div class="float-end">
+                                                        <a href="https://wa.me/212614369090?text=Salam,%20j%27ai%20oubli%C3%A9%20mon%20mot%20de%20passe%20!" class="text-muted">
+                                                            Mot de passe oublié ?
+                                                        </a>
+                                                    </div>
+                                                    <label class="form-label" for="password-input">Mot de passe
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="position-relative auth-pass-inputgroup mb-3">
+                                                        <input type="password" class="form-control pe-5" placeholder="Votre mot de passe" id="password-input" name="password" autocomplete="off" required/>
+
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
+                                                            <i class="ri-eye-fill align-middle"></i>
+                                                        </button>
+                                                        <div class="invalid-feedback text-primary d-block">
+                                                            Le mot de passe doit comporter au moins 8 caractères !
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="_remember_me" id="rememberMe" checked>
+                                                    <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                                                </div>
+
+                                                <div class="mt-4">
+                                                    <button class="btn btn-tawjihi w-100" type="submit">Se connecter</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="mt-5 text-center">
+                                            <p class="mb-0">
+                                                Vous n'avez pas de compte ?
+                                                <a href="{{path('app_register')}}" class="fw-semibold text-primary text-decoration-underline">
+                                                    S'inscrire
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <template>
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <p class="mb-0">&copy; 2025 E-TAWJIHI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </template>
+
+    </div>
+    <script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const eye = document.querySelector("#password-addon");
+        const password = document.querySelector("#password-input");
+
+        eye.addEventListener("click", function () { // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+
+// toggle the icon
+            togglePassword.classList.toggle("ri-eye-off-fill");
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,155 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire sur E-Tawjihi !{% endblock %}
+
+{% block description %}Inscrivez-vous pour découvrir les écoles et filières supérieures qui conviennent à votre personnalité grâce à nos tests d'orientation et notre processus sur mesure !{% endblock %}
+
+{% block body %}
+    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-overlay"></div>
+        <div class="auth-page-content overflow-hidden pt-lg-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card overflow-hidden">
+                            <div class="row g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-lg-5 p-4 auth-one-bg h-100">
+                                        <div class="bg-overlay"></div>
+                                        <div class="position-relative h-100 d-flex flex-column">
+                                            <div class="mb-4">
+                                                <a href="/" class="d-block">
+                                                    <img src="{{ asset('assets/styles/images/brand/white-logo.png') }}" alt="" height="45"/>
+                                                </a>
+                                            </div>
+                                            <div class="mt-auto">
+                                                <div class="mb-3">
+                                                    <i class="ri-double-quotes-l display-4 text-tawjihi"></i>
+                                                </div>
+                                                <div id="qoutescarouselIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                    <div class="carousel-indicators">
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                                    </div>
+                                                    <div class="carousel-inner text-center text-white-50 pb-5">
+                                                        <div class="carousel-item active">
+                                                            <p class="fs-20 fst-italic">" La réussite dépend d’une bonne orientation ! "</p>
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <p class="fs-20 fst-italic">" La réussite n'est pas le fruit du hasard, mais le résultat d'un travail acharné. "</p>
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <p class="fs-20 fst-italic">" Choisis un travail que tu aimes et tu n'auras jamais à travailler un seul jour de ta vie "</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="p-lg-5 p-4">
+                                        <div>
+                                            <h5 class="text-primary">Marhba bik !</h5>
+                                            <p class="text-muted">Créez votre compte dès maintenant !</p>
+                                        </div>
+
+                                        {% for label, messages in app.flashes %}
+                                            {% for message in messages %}
+                                                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                                                    {{ message }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+
+                                        {{ form_errors(registrationForm) }}
+
+                                        <div class="mt-4">
+                                            {{ form_start(registrationForm) }}
+
+                                            {# EMAIL FIELD #}
+                                            <div class="mb-3">
+                                                {{ form_label(registrationForm.email, "Adresse Email", {'label_attr': {'class': 'form-label'}}) }}
+                                                <div class="invalid-feedback d-block">
+                                                    {{ form_errors(registrationForm.email) }}
+                                                </div>
+                                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'votre.email@example.com', 'id': 'email'}}) }}
+                                            </div>
+
+                                            {# PHONE NUMBER FIELD - Changed from .tel to .phoneNumber #}
+                                            <div class="mb-3">
+                                                {{ form_label(registrationForm.phoneNumber, "Numéro de téléphone", {'label_attr': {'class': 'form-label'}}) }}
+                                                <div class="invalid-feedback d-block">
+                                                    {{ form_errors(registrationForm.phoneNumber) }}
+                                                </div>
+                                                {{ form_widget(registrationForm.phoneNumber, {'attr': {'class': 'form-control', 'placeholder': '06...', 'id': 'phoneNumber', 'pattern': '\\d{0,10}', 'oninput': "this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10)"}}) }}
+                                            </div>
+
+                                            {# PASSWORD FIELD #}
+                                            <div class="mb-3">
+                                                {{ form_label(registrationForm.password.pass, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                                                <div class="invalid-feedback d-block">
+                                                    {{ form_errors(registrationForm.password.pass) }}
+                                                </div>
+                                                <div class="position-relative auth-pass-inputgroup mb-3">
+                                                    {{ form_widget(registrationForm.password.pass, {'attr': {'class': 'form-control pe-5 password-field', 'placeholder': 'Votre mot de passe', 'id': 'password-input'}}) }}
+                                                </div>
+                                                <div class="invalid-feedback text-primary d-block">
+                                                    Le mot de passe doit comporter au moins 8 caractères !
+                                                </div>
+                                            </div>
+
+                                            {# CONFIRM PASSWORD FIELD #}
+                                            <div class="mb-3">
+                                                {{ form_label(registrationForm.password.confirm, 'Confirmez le mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                                                <div class="invalid-feedback d-block">
+                                                    {{ form_errors(registrationForm.password.confirm) }}
+                                                </div>
+                                                <div class="position-relative auth-pass-inputgroup mb-3">
+                                                    {{ form_widget(registrationForm.password.confirm, {'attr': {'class': 'form-control pe-5 password-field', 'placeholder': 'Confirmez votre mot de passe', 'id': 'password-input-conf'}}) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <button class="btn btn-tawjihi w-100 mb-1" type="submit">S'inscrire</button>
+                                                <p>En t'inscrivant, tu acceptes
+                                                    <a href="/cgu">Les conditions générales d'utilisation.</a>
+                                                </p>
+                                            </div>
+                                            {{ form_end(registrationForm) }}
+                                        </div>
+
+                                        <div class="mt-5 text-center">
+                                            <p class="mb-0">
+                                                Vous avez un compte ?
+                                                <a href="{{ path('app_login') }}" class="fw-semibold text-primary text-decoration-underline">
+                                                    Se connecter
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0">&copy; 2025 E-TAWJIHI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

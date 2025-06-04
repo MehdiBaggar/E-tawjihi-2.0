@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier les infos académiques{% endblock %}
+
+{% block body %}
+    <h1>Modifier les informations académiques</h1>
+
+    {% for label, messages in app.flashes %}
+        <div class="alert alert-{{ label }}">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.institutionType) }}
+    {{ form_row(form.currentLevel) }}
+    {{ form_row(form.field) }}
+    {{ form_row(form.average) }}
+    {{ form_row(form.baccalaureateYear) }}
+    <button class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(form) }}
+{% endblock %}

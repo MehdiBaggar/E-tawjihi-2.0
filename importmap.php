@@ -25,4 +25,22 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    '@kyvg/vue3-notification' => [
+        'version' => '3.4.1',
+    ],
+    'vue' => [
+        'version' => '3.5.12',
+    ],
+    '@vue/runtime-dom' => [
+        'version' => '3.5.12',
+    ],
+    '@vue/runtime-core' => [
+        'version' => '3.5.12',
+    ],
+    '@vue/shared' => [
+        'version' => '3.5.12',
+    ],
+    '@vue/reactivity' => [
+        'version' => '3.5.12',
+    ],
 ];

@@ -6,6 +6,9 @@
 parameters:
 
 services:
+    annotation_reader:
+        class: Doctrine\Common\Annotations\AnnotationReader
+    App\User\Domain\Repository\UserRepositoryInterface: '@App\User\Infrastructure\Repository\UserRepository'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -14,11 +17,17 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+        resource: '../src/*'
+        exclude: '../src/**/UI/Controller'
+    App\User\Infrastructure\Controller\:
+        resource: '../src/User/Infrastructure/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    App\Core\UI\Controller\:
+        resource: '../src/Core/UI/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
