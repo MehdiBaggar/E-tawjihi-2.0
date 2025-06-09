@@ -88,7 +88,4 @@ abstract class AbstractTest
     }
 
 
-    abstract public function calculateScore(array $answers): float;
-
-    abstract public function getInstructions(): string;
 }

@@ -141,19 +141,19 @@ export default {
           <!-- Dark Logo-->
           <router-link to="/" class="logo logo-dark">
             <span class="logo-sm">
-              <img src="@/styles/images/logo-sm.png" alt="" height="22" />
+              <img src="@/styles/images/logo-sm.png" alt="" height="25" />
             </span>
             <span class="logo-lg">
-              <img src="@/styles/images/logo-dark.png" alt="" height="17" />
-            </span>
+              <img src="@/styles/images/logo-dark.png" alt="" height="25" />
+            </span
           </router-link>
           <!-- Light Logo-->
           <router-link to="/" class="logo logo-light">
             <span class="logo-sm">
-              <img src="@/styles/images/logo-sm.png" alt="" height="22" />
+              <img src="@/styles/images/logo-sm.png" alt="" height="25" />
             </span>
             <span class="logo-lg">
-              <img src="@/styles/images/logo-light.png" alt="" height="17" />
+              <img src="@/styles/images/logo-light.png" alt="" height="25" />
             </span>
           </router-link>
           <button type="button" class="
