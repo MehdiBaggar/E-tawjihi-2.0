@@ -14,7 +14,7 @@ class AcademicInfo
     private ?int $id = null;
 
     #[ORM\Column(type: 'string',nullable: true, length: 100)]
-    private ?string $typeEtablissement; // public, privé, mission, etc.
+    private ?string $typeEtablissement; // public_html, privé, mission, etc.
 
     #[ORM\Column(type: 'string',nullable: true, length: 50)]
     private ?string $niveauEtudes; // Terminale, Bac+1, etc.

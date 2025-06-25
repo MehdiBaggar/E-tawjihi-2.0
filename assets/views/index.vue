@@ -1,7 +1,7 @@
 <template>
     <Layout>
     <div>
-      <h1>Welcome to the Mehdi Page</h1>
+      <h1>Welcome to the Mehdi</h1>
       <p>This is a custom page.</p>
     </div>
     </Layout>

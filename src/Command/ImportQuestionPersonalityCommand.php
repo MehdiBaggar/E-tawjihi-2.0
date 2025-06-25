@@ -37,7 +37,7 @@ class ImportQuestionPersonalityCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $csvFile = __DIR__ . '/../../public/question.csv';
+        $csvFile = __DIR__ . '/../../public_html/question.csv';
 
         if (!file_exists($csvFile)) {
             $io->error("CSV file not found at: $csvFile");
