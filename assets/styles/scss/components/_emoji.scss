@@ -1,0 +1,28 @@
+.emoji-options {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap; // no wrapping, keep in one line
+  overflow-x: auto;  // horizontal scroll if overflow
+  -webkit-overflow-scrolling: touch;
+}
+
+.emoji-selection-item {
+  flex: 0 0 auto; // no shrinking
+  text-align: center;
+  max-width: 60px;  // Default size for desktop
+
+  @media (max-width: 576px) {
+    max-width: 40px; // Smaller size for phones
+  }
+}
+
+.emoji-container {
+  width: 50px;
+  height: 50px;
+
+  @media (max-width: 576px) {
+    width: 40px;
+    height: 40px;
+  }
+}

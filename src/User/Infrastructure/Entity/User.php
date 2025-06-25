@@ -74,7 +74,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
     public function getUserIdentifier(): string { return $this->phoneNumber; }
-    public function eraseCredentials(): void {}
+    public function eraseCredentials(): void
+    {
+        // This method is required by Symfony's UserInterface.
+        // It's intended to clear any temporary, sensitive data (e.g., plaintext passwords) after authentication.
+        // In our case, we do not store such temporary data, so no action is needed here.
+    }
 
     public function getCreatedAt():\DateTimeImmutable
     {

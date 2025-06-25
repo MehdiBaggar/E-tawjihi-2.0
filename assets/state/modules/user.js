@@ -34,6 +34,10 @@ export const getters = {
     lycee: state => state.user?.academicInfo.lycee || '',
     nomTuteur: state => state.user?.academicInfo.nomTuteur || '',
     telTuteur: state => state.user?.academicInfo.telTuteur || '',
+    hasCompletedPersonalityTest: state => !!state.user?.hasCompletedPersonalityTest,
+    createdAt: state => state.user?.createdAt || '',
+
+
 
 
 
@@ -67,7 +71,7 @@ export const actions = {
         commit('setError', null); // Clear previous errors
         try {
             console.log('[Vuex Action fetchUser] Making API call to /api/me.');
-            const res = await axios.get('user/api/me'); // Ensure this path is correct and axios is configured
+            const res = await axios.get('/user/api/me'); // Ensure this path is correct and axios is configured
             console.log('[Vuex Action fetchUser] RAW API response status:', res.status);
             console.log('[Vuex Action fetchUser] RAW API response data (res.data):', res.data ? JSON.parse(JSON.stringify(res.data)) : null);
             if (res.data && res.data.id) {

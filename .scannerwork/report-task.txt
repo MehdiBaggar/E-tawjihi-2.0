@@ -1,6 +1,6 @@
-projectKey=e-tawjihi
+projectKey=e-tawjihi2
 serverUrl=http://localhost:9000
-serverVersion=24.12.0.100206
-dashboardUrl=http://localhost:9000/dashboard?id=e-tawjihi
-ceTaskId=56872a6f-c305-4ca0-8cde-ba1fa5716946
-ceTaskUrl=http://localhost:9000/api/ce/task?id=56872a6f-c305-4ca0-8cde-ba1fa5716946
+serverVersion=25.6.0.109173
+dashboardUrl=http://localhost:9000/dashboard?id=e-tawjihi2
+ceTaskId=913e090b-c10e-4128-a918-0399d6e81a17
+ceTaskUrl=http://localhost:9000/api/ce/task?id=913e090b-c10e-4128-a918-0399d6e81a17

@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Test\Domain\Entity;
-use App\Test\Domain\ValueObject\Enum\TestType;
 
+use App\Test\Domain\Entity\Question\AbstractQuestion;
+use App\Test\Domain\ValueObject\Enum\TestType;
+use App\User\Domain\Entity\User; // ajout de l'import User
 use DateTimeImmutable;
 
 abstract class AbstractTest
 {
-    protected int $id;
+    protected ?int $id;
     protected string $title;
     protected string $description;
     protected TestType $type;
@@ -17,8 +19,15 @@ abstract class AbstractTest
     protected DateTimeImmutable $createdAt;
     protected ?DateTimeImmutable $updatedAt = null;
 
+    /**
+     * @var AbstractQuestion[]
+     */
+    protected array $questions = [];
+
+    protected ?User $user = null;  // nouvel attribut user
+
     public function __construct(
-        int $id,
+        ?int $id,
         string $title,
         string $description,
         TestType $type,
@@ -37,7 +46,7 @@ abstract class AbstractTest
     }
 
     // === Getters communs ===
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -87,5 +96,28 @@ abstract class AbstractTest
         $this->updatedAt = new DateTimeImmutable();
     }
 
+    // === Questions ===
+    abstract public function addQuestion(AbstractQuestion $question): void;
 
+    public function getQuestions(): array
+    {
+        return $this->questions;
+    }
+
+    // === User Getter & Setter ===
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 }

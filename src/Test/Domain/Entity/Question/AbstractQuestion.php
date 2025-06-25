@@ -25,5 +25,6 @@ abstract class AbstractQuestion
         return $this->text;
     }
 
+
     abstract public function getTestType(): TestType;
 }

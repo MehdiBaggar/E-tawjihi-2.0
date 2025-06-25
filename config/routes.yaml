@@ -6,3 +6,8 @@ user_controllers:
 home_controllers:
     resource: '../src/Core/UI/Controller'
     type: attribute
+
+Test_controllers:
+    resource: '../src/Test/Infrastructure/Controller'
+    type: attribute
+

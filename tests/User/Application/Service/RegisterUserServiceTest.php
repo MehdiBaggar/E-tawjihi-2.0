@@ -20,7 +20,8 @@ class RegisterUserServiceTest extends TestCase
 
         $dto = new RegisterUserDTO(
             email: 'john@example.com',
-            plainPassword: 'securepassword'
+            plainPassword: 'securepassword',
+            phoneNumber: '0123456789'
         );
 
         $passwordHasher->expects($this->once())

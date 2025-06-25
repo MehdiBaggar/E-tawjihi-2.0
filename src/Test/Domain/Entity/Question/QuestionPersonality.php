@@ -8,32 +8,54 @@ use App\Test\Domain\ValueObject\Enum\TestType;
 
 class QuestionPersonality extends AbstractQuestion
 {
-    private RIASECType $riasecType;
-    private int $scoreWeight;
+    /**
+     * @var array<string, int>  // ['R' => 3, 'I' => 0, ...]
+     */
+    private array $traitScores = [];
 
-    public function __construct(
-        int $id,
-        string $text,
-        RIASECType $riasecType,
-        int $scoreWeight
-    ) {
+    public function __construct(int $id, string $text, array $traitScores) {
         parent::__construct($id, $text);
-        $this->riasecType = $riasecType;
-        $this->scoreWeight = $scoreWeight;
+        $this->traitScores = $traitScores;
+
+        // Initialize traitScores with 0 for all types if not provided
+        foreach (RIASECType::cases() as $type) {
+            $this->traitScores[$type->value] = $traitScores[$type->value] ?? 0;
+        }
     }
 
-    public function getRIASECType(): RIASECType
+    public function getTraitScores(): array
     {
-        return $this->riasecType;
+        return $this->traitScores;
     }
 
-    public function getScoreWeight(): int
+    public function setTraitScores(array $traitScores): self
     {
-        return $this->scoreWeight;
+        $this->traitScores = $traitScores;
+        return $this;
+    }
+
+    public function getTraitScore(string $trait): int
+    {
+        return $this->traitScores[$trait] ?? 0;
+    }
+
+    public function setTraitScore(string $trait, int $score): self
+    {
+        if (!array_key_exists($trait, $this->traitScores)) {
+            throw new \InvalidArgumentException("Invalid RIASEC trait: $trait");
+        }
+
+        $this->traitScores[$trait] = $score;
+        return $this;
     }
 
     public function getTestType(): TestType
     {
         return TestType::PERSONALITY;
+    }
+
+    public function setText(string $Text)
+    {
+        $this->text=$Text;
     }
 }

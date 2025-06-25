@@ -2,47 +2,44 @@
 
 namespace App\Test\Domain\Entity;
 
-use App\Test\Domain\Entity\AbstractTest;
-use App\Test\Domain\ValueObject\Enum\RIASECType;
+use App\Test\Domain\Entity\Question\AbstractQuestion;
+use App\Test\Domain\Entity\Question\QuestionPersonality;
 use App\Test\Domain\ValueObject\Enum\TestType;
-use App\Test\Domain\ValueObject\RIASECCategoryList;
 
 class PersonalityTest extends AbstractTest
 {
-    private RIASECCategoryList $categories;
 
-    /**
-     * @var array<int>
-     */
-    private array $questionIds;
 
     public function __construct(
-        int $id,
+        ?int $id,
         string $title,
         string $description,
-        TestType $type,
         bool $isActive,
         int $estimatedDuration,
         int $order,
-        array $questionIds = []
+        array $questions = []
     ) {
-        parent::__construct($id, $title, $description, $type, $isActive, $estimatedDuration, $order);
-        $this->categories = RIASECCategoryList::all();
-        $this->questionIds = $questionIds;
+        parent::__construct($id, $title, $description, TestType::PERSONALITY, $isActive, $estimatedDuration, $order);
+        foreach ($questions as $q) {
+            if (!$q instanceof QuestionPersonality) {
+                throw new \InvalidArgumentException("Toutes les questions doivent être des instances de QuestionPersonality");
+            }
+        }
+        $this->questions = $questions;
     }
 
-
-    /**
-     * @return RIASECType[]
-     */
-    public function getCategories(): array
+    public function getQuestions(): array
     {
-        return $this->categories->getCategories();
+        return $this->questions;
+    }
+    public function addQuestion(AbstractQuestion $question): void
+    {
+        if (!$question instanceof QuestionPersonality) {
+            throw new \InvalidArgumentException("Seules les questions de type QuestionPersonality sont autorisées.");
+        }
+
+        $this->questions[] = $question;
     }
 
-    public function getQuestionIds(): array
-    {
-        return $this->questionIds;
-    }
 
 }

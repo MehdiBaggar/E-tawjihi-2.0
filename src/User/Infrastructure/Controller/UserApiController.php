@@ -9,6 +9,7 @@ use App\User\Application\Service\ArchiveUserService;
 use App\User\Application\Service\ChangePasswordService;
 use App\User\Application\Service\UpdateAcademicInfoService;
 use App\User\Application\Service\UpdateUserService;
+use App\Test\Infrastructure\Repository\TestPersonalityRepository;
 
 use App\User\Infrastructure\Entity\User;
 use App\User\Infrastructure\Mapper\UserMapper;
@@ -31,7 +32,8 @@ class UserApiController extends AbstractController
         private UpdateAcademicInfoService $updateAcademicInfoService,
         private Security $security,
         private LoggerInterface $logger,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private TestPersonalityRepository $testPersonalityService,
 
     ) {}
 
@@ -53,6 +55,7 @@ class UserApiController extends AbstractController
     {
         $this->logger->info('[API /api/me] Request received.');
 
+        /** @var User|null $user */
         $user = $security->getUser();
 
         if (!$user) {
@@ -60,74 +63,30 @@ class UserApiController extends AbstractController
             return $this->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $this->logger->info('[API /api/me] User authenticated.', ['userId' => $user->getId(), 'email' => $user->getEmail()]);
+        $this->logger->info('[API /api/me] User authenticated.', [
+            'userId' => $user->getId(),
+            'email' => $user->getEmail()
+        ]);
 
-        $personalInfo = $user->getPersonalInfo();
-        $firstName = null;
-        $lastName = null;
-        $sex = null;
-        $dateOfBirth = null;
+        $personalInfo = $this->extractPersonalInfo($user);
+        $academicInfo = $this->extractAcademicInfo($user);
 
-        if ($personalInfo) {
-            $firstName = $personalInfo->getFirstName();
-            $lastName = $personalInfo->getLastName();
-            $sex = $personalInfo->getSex();
-            $dateOfBirth = $personalInfo->getDateOfBirth();
-            $this->logger->info('[API /api/me] PersonalInfo found.', [
-                'userId' => $user->getId(),
-                'pi_firstName' => $firstName,
-                'pi_lastName' => $lastName,
-                'pi_sex' => $sex,
-                'pi_dateOfBirth' => $dateOfBirth,
-                'personalInfoClass' => get_class($personalInfo)
-            ]);
+        $hasCompletedPersonalityTest = $this->testPersonalityService->hasUserCompletedPersonalityTest($user);
 
-            if ($firstName === null || $lastName === null || $sex === null|| $dateOfBirth === null) {
-                $this->logger->warning('[API /api/me] PersonalInfo found, but firstName or lastName is NULL.', [
-                    'firstName' => $firstName,
-                    'lastName' => $lastName
-                ]);
-            }
+        $responseData = $this->buildUserResponse($user, $personalInfo, $academicInfo);
+        $responseData['hasCompletedPersonalityTest'] = $hasCompletedPersonalityTest;
 
-        } else {
-            $this->logger->warning('[API /api/me] PersonalInfo NOT found for user.', [
-                'userId' => $user->getId(),
-                'isPersonalInfoNull' => $personalInfo === null
-            ]);
-        }
-
-        $academicInfo = $user->getAcademicInfo();
+        $responseData['createdAt'] = $user->getCreatedAt()?->format('Y-m-d H:i:s');
 
 
+        $this->logger->info('[API /api/me] Responding with user data.', [
+            'data_being_sent' => $responseData
+        ]);
 
-        $responseData = [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'phoneNumber' => $user->getPhoneNumber(),
-            'roles' => $user->getRoles(),
-            'personalInfo' => [
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'Sex' => $sex,
-                'dateOfBirth' => $dateOfBirth,
-            ],
-            'academicInfo' => $academicInfo ? [
-                'niveauDetude' => $academicInfo ? $academicInfo->getNiveauEtudes() : null,
-                'filiere' => $academicInfo ? $academicInfo->getFiliere() : null,
-                'typeEtablissement' => $academicInfo ? $academicInfo->getTypeEtablissement() : null,
-                'anneeObtentionBac' => $academicInfo ? $academicInfo->getAnneeObtentionBac() : null,
-                'lycee' => $academicInfo ? $academicInfo->getLycee() : null,
-                'nomTuteur' => $academicInfo ? $academicInfo->getNomTuteur() : null,
-                'telTuteur' => $academicInfo ? $academicInfo->getTelTuteur() : null,
-
-
-        ] : null,
-        ];
-
-        $this->logger->info('[API /api/me] Responding with user data.', ['data_being_sent' => $responseData]);
 
         return $this->json($responseData);
     }
+
 
     #[Route('/api/personal-info/update', name: 'api_user_personal_info_update', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -314,6 +273,71 @@ class UserApiController extends AbstractController
             return new JsonResponse(['error' => $e->getMessage()], 400);
         }
     }
+    private function extractPersonalInfo(User $user): array
+    {
+        $info = $user->getPersonalInfo();
+
+        if (!$info) {
+            $this->logger->warning('[API /api/me] PersonalInfo NOT found for user.', [
+                'userId' => $user->getId()
+            ]);
+            return ['firstName' => null, 'lastName' => null, 'Sex' => null, 'dateOfBirth' => null];
+        }
+
+        $this->logger->info('[API /api/me] PersonalInfo found.', [
+            'userId' => $user->getId(),
+            'pi_firstName' => $info->getFirstName(),
+            'pi_lastName' => $info->getLastName(),
+            'pi_sex' => $info->getSex(),
+            'pi_dateOfBirth' => $info->getDateOfBirth(),
+            'personalInfoClass' => get_class($info)
+        ]);
+
+        if (!$info->getFirstName() || !$info->getLastName() || !$info->getSex() || !$info->getDateOfBirth()) {
+            $this->logger->warning('[API /api/me] Some PersonalInfo fields are null.', [
+                'firstName' => $info->getFirstName(),
+                'lastName' => $info->getLastName()
+            ]);
+        }
+
+        return [
+            'firstName' => $info->getFirstName(),
+            'lastName' => $info->getLastName(),
+            'Sex' => $info->getSex(),
+            'dateOfBirth' => $info->getDateOfBirth()
+        ];
+    }
+
+    private function extractAcademicInfo(User $user): ?array
+    {
+        $info = $user->getAcademicInfo();
+        if (!$info) {
+            return null;
+        }
+
+        return [
+            'niveauDetude' => $info->getNiveauEtudes(),
+            'filiere' => $info->getFiliere(),
+            'typeEtablissement' => $info->getTypeEtablissement(),
+            'anneeObtentionBac' => $info->getAnneeObtentionBac(),
+            'lycee' => $info->getLycee(),
+            'nomTuteur' => $info->getNomTuteur(),
+            'telTuteur' => $info->getTelTuteur()
+        ];
+    }
+
+    private function buildUserResponse(User $user, array $personalInfo, ?array $academicInfo): array
+    {
+        return [
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'phoneNumber' => $user->getPhoneNumber(),
+            'roles' => $user->getRoles(),
+            'personalInfo' => $personalInfo,
+            'academicInfo' => $academicInfo
+        ];
+    }
+
 
 
 

@@ -295,19 +295,19 @@ export default {
           <div class="navbar-brand-box horizontal-logo">
             <router-link to="/" class="logo logo-dark">
               <span class="logo-sm">
-                <img src="@/styles/images/brand/white-logo.png" alt="" height="25" />
+                <img src="@/styles/images/brand/white-logo.png" alt="" height="40" />
               </span>
               <span class="logo-lg">
-                <img src="@/styles/images/brand/white-logo.png" alt="" height="25" />
+                <img src="@/styles/images/brand/white-logo.png" alt="" height="40" />
               </span>
             </router-link>
 
             <router-link to="/" class="logo logo-light">
               <span class="logo-sm">
-                <img src="@/styles/images/brand/white-logo.png" alt="" height="25" />
+                <img src="@/styles/images/brand/white-logo.png" alt="" height="40" />
               </span>
               <span class="logo-lg">
-                <img src="@/styles/images/brand/white-logo.png" alt="" height="25" />
+                <img src="@/styles/images/brand/white-logo.png" alt="" height="40" />
               </span>
             </router-link>
           </div>

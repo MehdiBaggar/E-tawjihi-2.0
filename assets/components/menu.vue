@@ -250,6 +250,25 @@ export default {
     <template v-if="layoutType === 'vertical' || layoutType === 'semibox'">
       <ul class="navbar-nav h-100" id="navbar-nav">
         <li class="menu-title">
+          <span data-key="t-menu">Menu</span>
+        </li>
+        <li class="nav-item">
+          <router-link to="/MonPlan" class="nav-link" data-key="t-profile">
+            <i class="mdi mdi-map-legend"></i>
+            <span data-key="t-accueil">Mon Plan E-tawjihi</span>
+
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/personalityTest/result" class="nav-link" data-key="t-profile">
+            <i class="mdi mdi-counter"></i>
+            <span data-key="t-accueil">Mes Résultats</span>
+
+          </router-link>
+        </li>
+      </ul>
+      <ul class="navbar-nav h-100" id="navbar-nav">
+        <li class="menu-title">
           <span data-key="t-menu"> PARAMÈTRES</span>
         </li>
         <li class="nav-item">

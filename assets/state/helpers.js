@@ -38,3 +38,12 @@ export const todoComputed = {
   })
 }
 export const todoMethods = mapActions('todo', ['fetchTodos'])
+export const testComputed = {
+  ...mapState('test', {
+    test: state => state.test,
+    loading: state => state.loading,
+    error: state => state.error,
+  }),
+};
+
+export const testMethods = mapActions('test', ['loadPersonalityTest']);

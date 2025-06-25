@@ -100,6 +100,25 @@ class User
     public function getAcademicInfo(): ?AcademicInfo {
         return $this->academicInfo;
     }
+    public function getFirstName(): ?string
+    {
+        return $this->personalInfo ? $this->personalInfo->getFirstName() : null;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->personalInfo ? $this->personalInfo->getLastName() : null;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->personalInfo ? $this->personalInfo->getDateOfBirth() : null;
+    }
+
+    public function getSex(): ?string
+    {
+        return $this->personalInfo ? $this->personalInfo->getSex() : null;
+    }
 
 
 

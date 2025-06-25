@@ -21,6 +21,12 @@ doctrine:
                 type: attribute
                 dir: '%kernel.project_dir%/src/User/Infrastructure/Entity'
                 prefix: 'App\User\Infrastructure\Entity'
+            TestInfrastructure:
+                is_bundle: false
+                type: attribute # or annotation, depending on what you used
+                dir: '%kernel.project_dir%/src/Test/Infrastructure/Entity'
+                prefix: 'App\Test\Infrastructure\Entity'
+                alias: TestInfra # A short alias for DQL
 
 when@test:
     doctrine:

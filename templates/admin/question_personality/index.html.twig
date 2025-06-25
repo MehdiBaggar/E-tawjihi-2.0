@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %} {# Or your admin base template #}
+
+{% block title %}Personality Questions{% endblock %}
+
+{% block body %}
+  <h1>Personality Questions</h1>
+
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+  {% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+  {% endfor %}
+
+  <p><a href="{{ path('admin_question_personality_new') }}" class="btn btn-primary">Create New Question</a></p>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Text</th>
+      <th>RIASEC Type</th>
+      <th>Score Weight</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for question in questions %} {# question is DomainQuestionPersonality #}
+      <tr>
+        <td>{{ question.id }}</td>
+        <td>{{ question.text|slice(0, 100) }}{% if question.text|length > 100 %}...{% endif %}</td>
+        <td>{{ question.RIASECType.value }}</td> {# Accessing enum value #}
+        <td>{{ question.scoreWeight }}</td>
+        <td>
+          <a href="{{ path('admin_question_personality_show', {'id': question.id}) }}" class="btn btn-sm btn-info">Show</a>
+          <a href="{{ path('admin_question_personality_edit', {'id': question.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+          <form method="post" action="{{ path('admin_question_personality_delete', {'id': question.id}) }}" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this item?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ question.id) }}">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="5">No questions found.</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

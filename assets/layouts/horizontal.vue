@@ -145,7 +145,7 @@ export default {
             </span>
             <span class="logo-lg">
               <img src="@/styles/images/logo-dark.png" alt="" height="25" />
-            </span
+            </span>
           </router-link>
           <!-- Light Logo-->
           <router-link to="/" class="logo logo-light">

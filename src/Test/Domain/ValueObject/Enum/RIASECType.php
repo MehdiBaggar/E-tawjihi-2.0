@@ -10,4 +10,17 @@ enum RIASECType: string
     case SOCIAL = 'Social';
     case ENTERPRISING = 'Enterprising';
     case CONVENTIONAL = 'Conventional';
+
+    public static function fromCode(string $code): ?self
+    {
+        return match (strtoupper($code)) {
+            'R' => self::REALISTIC,
+            'I' => self::INVESTIGATIVE,
+            'A' => self::ARTISTIC,
+            'S' => self::SOCIAL,
+            'E' => self::ENTERPRISING,
+            'C' => self::CONVENTIONAL,
+            default => null,
+        };
+    }
 }
