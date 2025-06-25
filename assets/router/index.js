@@ -24,8 +24,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     const isAuthenticated = await checkAuth();
     if (!isAuthenticated) {
-      // 🔁 Full page reload
-      return window.location.href = '/user/login';
+      return next('/user/login');
     }
   }
   next();

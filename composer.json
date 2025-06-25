@@ -78,7 +78,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "assets:install public_html": "symfony-cmd",
             "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
@@ -94,7 +94,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.4.*"
+            "require": "6.4.*",
+            "public-dir": "public_html"
         }
     },
     "require-dev": {
